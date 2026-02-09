@@ -18,7 +18,7 @@ class Solution {
        ArrayList<Integer> arr=new ArrayList<>();
        inorder(arr,root);
       // System.out.println(arr.toString());
-       TreeNode newroot=constructBST(arr);
+       TreeNode newroot=construct(arr,0,arr.size()-1);
        return newroot;
     }
 public void inorder(ArrayList<Integer> arr,TreeNode root){
@@ -41,6 +41,14 @@ public TreeNode constructBST(ArrayList<Integer> arr){
     }
     root.left=constructBST(leftarr);
     root.right=constructBST(rightarr);
+    return root;
+}
+public TreeNode construct(ArrayList<Integer> arr,int start,int end){
+    if(start>end) return null;
+    int mid=(start+end)/2;
+    TreeNode root=new TreeNode(arr.get(mid));
+    root.left=construct(arr,start,mid-1);
+    root.right=construct(arr,mid+1,end);
     return root;
 }
 }
