@@ -1,195 +1,99 @@
-class LazyTag {
-
-    int toAdd;
-
-    LazyTag() {
-        this.toAdd = 0;
-    }
-
-    LazyTag add(LazyTag other) {
-        this.toAdd += other.toAdd;
-        return this;
-    }
-
-    boolean hasTag() {
-        return this.toAdd != 0;
-    }
-
-    void clear() {
-        this.toAdd = 0;
-    }
-}
-
-class SegmentTreeNode {
-
-    int minValue;
-    int maxValue;
-    LazyTag lazyTag;
-
-    SegmentTreeNode() {
-        this.minValue = 0;
-        this.maxValue = 0;
-        this.lazyTag = new LazyTag();
-    }
-}
-
 class SegmentTree {
+    public int n, size;
+    public int[] sum, mn, mx;
 
-    private int n;
-    private SegmentTreeNode[] tree;
-
-    SegmentTree(int[] data) {
-        this.n = data.length;
-        this.tree = new SegmentTreeNode[this.n * 4 + 1];
-        for (int i = 0; i < tree.length; i++) {
-            tree[i] = new SegmentTreeNode();
-        }
-        build(data, 1, this.n, 1);
+    SegmentTree(int n) {
+        this.n = n;
+        this.size = 4 * n;
+        this.sum = new int[size];
+        this.mn  = new int[size];
+        this.mx  = new int[size];
     }
 
-    void add(int l, int r, int val) {
-        LazyTag tag = new LazyTag();
-        tag.toAdd = val;
-        update(l, r, tag, 1, this.n, 1);
+    void pull(int node) {
+        int l = node * 2, r = node * 2 + 1;
+
+        sum[node] = sum[l] + sum[r];
+        mn[node] = Math.min(mn[l], sum[l] + mn[r]);
+        mx[node] = Math.max(mx[l], sum[l] + mx[r]);
     }
 
-    int findLast(int start, int val) {
-        if (start > this.n) {
-            return -1;
+    void update(int idx, int val) {
+        int node = 1, l = 0, r = n - 1, index = 0;
+        int[] path = new int[32]; 
+
+        while (l != r) {
+            path[index++] = node;
+            int m = l + (r - l) / 2;
+            if (idx <= m) {
+                node = node * 2;
+                r = m;
+            } else {
+                node = node * 2 + 1;
+                l = m + 1;
+            }
         }
-        return find(start, this.n, val, 1, this.n, 1);
+
+        sum[node] = val;
+        mn[node] = val;
+        mx[node] = val;
+
+        while (index > 0) {
+            pull(path[--index]);
+        }
     }
 
-    private void applyTag(int i, LazyTag tag) {
-        tree[i].minValue += tag.toAdd;
-        tree[i].maxValue += tag.toAdd;
-        tree[i].lazyTag.add(tag);
-    }
+    int find_rightmost_prefix(int target) {
+        int node = 1, l = 0, r = n - 1, sum_before = 0;
 
-    private void pushdown(int i) {
-        if (tree[i].lazyTag.hasTag()) {
-            LazyTag tag = new LazyTag();
-            tag.toAdd = tree[i].lazyTag.toAdd;
-            applyTag(i << 1, tag);
-            applyTag((i << 1) | 1, tag);
-            tree[i].lazyTag.clear();
-        }
-    }
+        if (target < mn[node] || target > mx[node]) return -1;
 
-    private void pushup(int i) {
-        tree[i].minValue = Math.min(
-            tree[i << 1].minValue,
-            tree[(i << 1) | 1].minValue
-        );
-        tree[i].maxValue = Math.max(
-            tree[i << 1].maxValue,
-            tree[(i << 1) | 1].maxValue
-        );
-    }
+        while (l != r) {
+            int m = l + (r - l) / 2;
+            int lchild = node * 2, rchild = node * 2 + 1;
 
-    private void build(int[] data, int l, int r, int i) {
-        if (l == r) {
-            tree[i].minValue = tree[i].maxValue = data[l - 1];
-            return;
+            int sum_before_right = sum[lchild] + sum_before;
+            int need_right = target - sum_before_right;
+
+            if (mn[rchild] <= need_right && need_right <= mx[rchild]) {
+                node = rchild;
+                l = m + 1;
+                sum_before = sum_before_right;
+            } else {
+                node = lchild;
+                r = m;
+            }
         }
 
-        int mid = l + ((r - l) >> 1);
-        build(data, l, mid, i << 1);
-        build(data, mid + 1, r, (i << 1) | 1);
-        pushup(i);
-    }
-
-    private void update(
-        int targetL,
-        int targetR,
-        LazyTag tag,
-        int l,
-        int r,
-        int i
-    ) {
-        if (targetL <= l && r <= targetR) {
-            applyTag(i, tag);
-            return;
-        }
-
-        pushdown(i);
-        int mid = l + ((r - l) >> 1);
-        if (targetL <= mid) update(targetL, targetR, tag, l, mid, i << 1);
-        if (targetR > mid) update(
-            targetL,
-            targetR,
-            tag,
-            mid + 1,
-            r,
-            (i << 1) | 1
-        );
-        pushup(i);
-    }
-
-    private int find(int targetL, int targetR, int val, int l, int r, int i) {
-        if (tree[i].minValue > val || tree[i].maxValue < val) {
-            return -1;
-        }
-
-        if (l == r) {
-            return l;
-        }
-
-        pushdown(i);
-        int mid = l + ((r - l) >> 1);
-
-        if (targetR >= mid + 1) {
-            int res = find(targetL, targetR, val, mid + 1, r, (i << 1) | 1);
-            if (res != -1) return res;
-        }
-
-        if (l <= targetR && mid >= targetL) {
-            return find(targetL, targetR, val, l, mid, i << 1);
-        }
-
-        return -1;
+        return l;
     }
 }
 
 class Solution {
-
     public int longestBalanced(int[] nums) {
-        Map<Integer, Queue<Integer>> occurrences = new HashMap<>();
-
-        int len = 0;
-        int[] prefixSum = new int[nums.length];
-        prefixSum[0] = sgn(nums[0]);
-        occurrences.computeIfAbsent(nums[0], k -> new LinkedList<>()).add(1);
-
-        for (int i = 1; i < nums.length; i++) {
-            prefixSum[i] = prefixSum[i - 1];
-            Queue<Integer> occ = occurrences.computeIfAbsent(nums[i], k ->
-                new LinkedList<>()
-            );
-            if (occ.isEmpty()) {
-                prefixSum[i] += sgn(nums[i]);
+        int n = nums.length;
+        SegmentTree s_tree = new SegmentTree(n);
+    
+        int[] first = new int[100001]; 
+        Arrays.fill(first, -1);
+        
+        int result = 0;
+        for (int l = n - 1; l >= 0; --l) {
+            int num = nums[l];
+            
+            if (first[num] != -1) {
+                s_tree.update(first[num], 0);
             }
-            occ.add(i + 1);
-        }
-
-        SegmentTree seg = new SegmentTree(prefixSum);
-
-        for (int i = 0; i < nums.length; i++) {
-            len = Math.max(len, seg.findLast(i + len, 0) - i);
-
-            int nextPos = nums.length + 1;
-            occurrences.get(nums[i]).poll();
-            if (!occurrences.get(nums[i]).isEmpty()) {
-                nextPos = occurrences.get(nums[i]).peek();
+            first[num] = l;
+            
+            s_tree.update(l, (num & 1) == 0 ? 1 : -1); 
+            
+            int r = s_tree.find_rightmost_prefix(0);
+            if (r >= l) {
+                result = Math.max(result, r - l + 1);
             }
-
-            seg.add(i + 1, nextPos - 1, -sgn(nums[i]));
         }
-
-        return len;
-    }
-
-    private int sgn(int x) {
-        return (x % 2) == 0 ? 1 : -1;
+        
+        return result;
     }
 }
