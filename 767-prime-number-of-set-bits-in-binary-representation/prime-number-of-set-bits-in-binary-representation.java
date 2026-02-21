@@ -2,14 +2,15 @@ class Solution {
     public int countPrimeSetBits(int left, int right) {
         int count=0;
         for(int i=left;i<=right;i++){
-            int n=0;
-            int num=i;
-            while(num!=0){
-                if(num%2==1)n++;
-                num/=2;
-            }
-            System.out.println(n);
+            // int n=0;
+            // int num=i;
+            // while(num!=0){
+            //     if(num%2==1)n++;
+            //     num/=2;
+            // }
+            int n=Integer.bitCount(i);
             if(isprime(n))count++;
+            System.out.println(n);
         }
         return count;
     }
