@@ -10,7 +10,7 @@ class Solution {
             // }
             int n=Integer.bitCount(i);
             if(isprime(n))count++;
-            System.out.println(n);
+           // System.out.println(n);
         }
         return count;
     }
