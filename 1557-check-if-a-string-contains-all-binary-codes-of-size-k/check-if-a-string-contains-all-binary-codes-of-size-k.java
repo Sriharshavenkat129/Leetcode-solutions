@@ -24,15 +24,4 @@ class Solution {
         }
         return set.size()==Math.pow(2,k);
     }
-    public static int getbinarydigit(String str){
-        int n=0;
-        int pow=0;
-        while(str.length()!=0){
-            int s=str.length()-1;
-            if(str.charAt(s)=='1')
-                n+=Math.pow(2,pow);
-            pow++;
-        }
-        return n;
-    }
 }
