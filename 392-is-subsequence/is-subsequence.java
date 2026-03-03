@@ -6,7 +6,7 @@ class Solution {
         for(int i=0;i<t.length();i++){
             if(t.charAt(i)==s.charAt(index))index++;
             if(index==s.length()) return true;
-            System.out.println(index);
+            //System.out.println(index);
         }
         return false;
     }
