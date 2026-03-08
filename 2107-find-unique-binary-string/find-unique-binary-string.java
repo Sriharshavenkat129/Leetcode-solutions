@@ -14,7 +14,7 @@ class Solution {
         for(int i=0;i<nums.length;i++){
             digits.add(getDigit(nums[i]));
         }
-        System.out.println(digits);
+      //  System.out.println(digits);
         String ans="";
         for(int i=0;i<Math.pow(2,16);i++){
             if(!digits.contains(i)){
