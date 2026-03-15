@@ -22,7 +22,7 @@ class Solution {
             return false;
         }
         if(root.right==null && root.left==null){
-            System.out.println(c_sum);
+            //System.out.println(c_sum);
             if(c_sum+root.val==targetSum) return true;
             else return false;
         }
