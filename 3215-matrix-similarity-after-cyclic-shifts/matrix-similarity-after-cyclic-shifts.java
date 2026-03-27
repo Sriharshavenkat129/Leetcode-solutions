@@ -1,3 +1,4 @@
+/*
 class Solution {
     public boolean areSimilar(int[][] mat, int k) {
         k%=mat[0].length;
@@ -34,6 +35,29 @@ class Solution {
     }
     public static boolean match(int[] arr1,int [] arr2){
         for(int i=0;i<arr1.length;i++)if(arr1[i]!=arr2[i])return false;
+        return true;
+    }
+}
+*/
+class Solution {
+    public boolean areSimilar(int[][] mat, int k) {
+        //Time Complexity - O(m*n)
+        //Space Complexity - O(1)
+
+        int m=mat.length;
+        int n=mat[0].length;
+        
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                int ind=(j+k)%n;
+                if(mat[i][j]!=mat[i][ind])
+                {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 }
