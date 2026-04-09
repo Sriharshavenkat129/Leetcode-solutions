@@ -7,8 +7,8 @@ class Solution {
         List<String> l=new ArrayList<>();
         for(char ch=colstart;ch<=colend;ch++){
             for(int i=rowstart-'0';i<=rowend-'0';i++){
-                 l.add(String.valueOf(ch)+String.valueOf(i));
-                System.out.println("added!");
+                 l.add(ch+""+i);
+               // System.out.println("added!");
             }
         }
         return l;
