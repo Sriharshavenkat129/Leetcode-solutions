@@ -1,17 +1,17 @@
 class Solution {
     public String replaceDigits(String s) {
-        String ans="";
+        StringBuilder ans=new StringBuilder("");
         char pre=' ';
         for(char ch:s.toCharArray()){
             if(ch>='a' && ch<='z'){
-                ans+=ch;
+                ans.append(ch);
                 pre=ch;
             }
             else{
                 int n=ch-'0';
-                ans+=(char)(pre+n);
+                ans.append((char)(pre+n));
             }
         }
-        return ans;
+        return ans.toString();
     }
 }
