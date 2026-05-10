@@ -7,7 +7,7 @@ class Solution {
     }
     public static void getAns(int[] arr,int target,List<List<Integer>> ans,List<Integer> l,int index){
         if(target==0){
-            System.out.println(l.toString());
+           // System.out.println(l.toString());
             List<Integer> list=new ArrayList<>(l);
             ans.add(list);
             return;
