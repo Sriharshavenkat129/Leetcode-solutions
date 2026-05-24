@@ -1,30 +1,25 @@
 class Solution {
     public int[] executeInstructions(int n, int[] startPos, String s) {
-        int[] ans=new int[s.length()];
-        int r=startPos[0],c=startPos[1];
-        for(int i=0;i<s.length();i++){
-            int count=0;
-            startPos[0]=r;
-            startPos[1]=c;
-            for(int j=i;j<s.length();j++){
-                if(countsteps(n,startPos,s.charAt(j))==1) count++;
-                else break;
+        int sLen = s.length();
+        int[] ans = new int[sLen];
+        for(int i=0; i< sLen; i++){
+            int steps = 0;
+            int row = startPos[0];
+            int col = startPos[1];
+            for(int j=i; j< sLen; j++){
+                char c = s.charAt(j);
+
+                if(c == 'U') row--;
+                else if(c == 'D') row++;
+                else if(c == 'R') col++;
+                else col--;
+                
+                if(col <0 || col == n || row == n || row <0) break;
+
+                steps++;
             }
-            ans[i]=count;
+            ans[i] = steps;
         }
         return ans;
-    }
-    public static int countsteps(int n,int[] st,char ch){
-        int r=st[0],c=st[1];
-        if(ch=='U')r--;
-        if(ch=='D')r++;
-        if(ch=='L')c--;
-        if(ch=='R')c++;
-        if(c<n && r<n && c>=0 && r>=0){
-            st[0]=r;
-            st[1]=c;
-            return 1;
-        }
-        else return 0;
     }
 }
