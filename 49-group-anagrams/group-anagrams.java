@@ -8,11 +8,11 @@ class Solution {
             l.add(str);
             map.put(s,l);
         }
-        List<List<String>> ans=new ArrayList<>();
-        for(ArrayList<String> l:map.values()){
-            ans.add(l);
-        }
-        return ans;
+        // List<List<String>> ans=new ArrayList<>();
+        // for(ArrayList<String> l:map.values()){
+        //     ans.add(l);
+        // }
+        return new ArrayList<>(map.values());
     }
     public static String getSortedString(String str){
         char[] arr=str.toCharArray();
