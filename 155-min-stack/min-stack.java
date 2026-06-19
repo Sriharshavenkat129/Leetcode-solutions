@@ -16,16 +16,18 @@ class MinStack {
         else{
             stack.push(value);
             if(value<=min){
+                minStack.push(value);
                 min=value;
             }
-            minStack.push(min);
         }
     }
     
     public void pop() {
         if(!stack.isEmpty()){
-            minStack.pop();
-            min=minStack.isEmpty()?Integer.MAX_VALUE:minStack.peek();
+            if(stack.peek().equals(minStack.peek())){
+                minStack.pop();
+                min=minStack.isEmpty()?Integer.MAX_VALUE:minStack.peek();
+            }
             stack.pop();
         }
     }
