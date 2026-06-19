@@ -15,7 +15,7 @@ class MinStack {
                 minStack.push(value);
             }
         }
-            stack.push(value);
+        stack.push(value);
     }
     
     public void pop() {
@@ -28,13 +28,11 @@ class MinStack {
     }
     
     public int top() {
-        if(stack.isEmpty()==false) return stack.peek();
-        return -1;
+         return stack.peek();
     }
     
     public int getMin() {
-        if(minStack.isEmpty()==false)return minStack.peek();
-        return -1;
+        return minStack.peek();
     }
 }
 
