@@ -10,6 +10,7 @@ class Solution {
                 j++;
                 count++;
             }
+            i=j-1;
             ans=Math.max(ans,count);
         }
         return ans;
