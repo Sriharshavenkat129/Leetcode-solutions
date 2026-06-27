@@ -1,0 +1,17 @@
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        int ans=1;
+        for(int i=0;i<nums.length;i++){
+            int count=1;
+            int j=i+1;
+            int cur=nums[i];
+            while(j<nums.length && nums[j]>cur){
+                cur=nums[j];
+                j++;
+                count++;
+            }
+            ans=Math.max(ans,count);
+        }
+        return ans;
+    }
+}
