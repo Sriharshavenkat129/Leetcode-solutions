@@ -8,7 +8,7 @@ class Solution {
             counts[chars[i]-'a']+=1;
             if(check(counts)){
                 while(check(counts)){
-                    ans+=getCount(counts,pre,i,chars.length);
+                    ans+=chars.length-i;
                     counts[chars[pre]-'a']--;
                     pre++;
                 }
@@ -18,10 +18,6 @@ class Solution {
     }
     public static boolean check(int[] arr){
         if(arr[0]>=1 && arr[1]>=1 && arr[2]>=1)return true;
-      //  System.out.println(arr[0]+" "+arr[1]+" "+arr[2]);
         return false;
-    }
-    public static int getCount(int[]arr,int left,int right,int length){
-        return length-right;
     }
 }
