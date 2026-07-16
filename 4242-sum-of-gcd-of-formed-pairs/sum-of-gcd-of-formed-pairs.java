@@ -18,20 +18,26 @@ class Solution {
         return ans;
     }
     public static int gcd(int n1,int n2){
-        if(n1==n2)return n1;
-        if(n1<n2){
-            while(n2!=0){
-                int temp=n2;
-                n2=n1%n2;
-                n1=temp;
-            }
-            return n1;
-        }
-        while(n1!=0){
-            int temp=n1;
-            n1=n2%n1;
+        // if(n1==n2)return n1;
+        // if(n1<n2){
+        //     while(n2!=0){
+        //         int temp=n2;
+        //         n2=n1%n2;
+        //         n1=temp;
+        //     }
+        //     return n1;
+        // }
+        // while(n1!=0){
+        //     int temp=n1;
+        //     n1=n2%n1;
+        //     n2=temp;
+        // }
+        // return n2;
+        while(n2!=0){
+            int temp=n1%n2;
+            n1=n2;
             n2=temp;
         }
-        return n2;
+        return n1;
     }
 }
