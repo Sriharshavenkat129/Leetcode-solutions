@@ -1,25 +1,34 @@
 class Solution {
     public int findShortestSubArray(int[] nums) {
-        HashMap<Integer,Integer> map=new HashMap<>();
-        int max=0,maxEle=nums.length;
-        for(int n:nums){
-            map.put(n,map.getOrDefault(n,0)+1);
-            max=Math.max(max,map.get(n));
+        int maxVal = 0;
+        for (int x : nums) {
+            maxVal = Math.max(maxVal, x);
         }
-        for(int key:map.keySet()){
-            if(map.get(key)==max){
-                maxEle=Math.min(maxEle,getDiff(key,nums));
+        int[] count = new int[maxVal + 1];
+        int[] first = new int[maxVal + 1];
+        int[] last = new int[maxVal + 1];
+        for (int i = 0; i <= maxVal; i++) {
+            first[i] = -1;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            int x = nums[i];
+            if (first[x] == -1) {
+                first[x] = i;
+            }
+
+            last[x] = i;
+            count[x]++;
+        }
+        int degree = 0;
+        for (int x : nums) {
+            degree = Math.max(degree, count[x]);
+        }
+        int result = nums.length;
+        for (int x : nums) {
+            if (count[x] == degree) {
+                result = Math.min(result, last[x] - first[x] + 1);
             }
         }
-        return maxEle;
+        return result;
     }
-    public static int getDiff(int n,int[] arr){
-        int start=0,end=arr.length-1;
-        while(arr[start]!=n || n!=arr[end]){
-            if(arr[start]!=n)start++;
-            if(arr[end]!=n)end--;
-        }
-       // System.out.println(end+" "+start);
-        return end-start+1;
-    } 
 }
