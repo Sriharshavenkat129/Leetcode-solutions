@@ -10,11 +10,6 @@ class Solution {
                 left++;
             }
         }
-        // while(current_sum>=target && left<nums.length){
-        //     ans=Math.min(ans,nums.length-left);
-        //     current_sum-=nums[left];
-        //     left++;
-        // }
         return ans==nums.length+1?0:ans;
     }
 }
