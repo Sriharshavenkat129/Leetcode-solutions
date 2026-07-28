@@ -16,10 +16,10 @@ class Solution {
                 ans.append(ch);
             }
         }
-        StringBuilder rev=new StringBuilder("");
-        for(int i=ans.length()-1;i>=0;i--){
-            rev.append(ans.charAt(i));
-        }
+        StringBuilder rev=new StringBuilder(ans).reverse();
+        // for(int i=ans.length()-1;i>=0;i--){
+        //     rev.append(ans.charAt(i));
+        // }
         if(odd!=' '){ans.append(odd);}
         return ans.append(rev).toString();
     }
