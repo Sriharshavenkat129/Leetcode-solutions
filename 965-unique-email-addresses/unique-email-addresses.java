@@ -16,7 +16,7 @@ class Solution {
                     name.append(ch);
                 }
             }
-            System.out.println(name);
+           // System.out.println(name);
             set.add(name.toString());
         }
         return set.size();
