@@ -17,7 +17,6 @@ class Solution {
         for(int n:piles){
             hours+=(int)Math.ceil((double)n/k);
         }
-        System.out.println("---");
         return hours;
     }
 }
