@@ -1,23 +1,19 @@
 class Solution {
+    // 9:51
     public String digitSum(String s, int k) {
-        StringBuilder str=new StringBuilder(s);
-        while(str.length()>k){
-            int l=0,sum=0;
-            StringBuilder newstr=new StringBuilder("");
-            for(int i=0;i<str.length();i++){
-                l++;
-                sum=sum+(str.charAt(i)-'0');
-                System.out.println(sum);
-                if(l%k==0){
-                    newstr.append(sum);
-                    sum=0;
+        
+        while(s.length() > k){
+            StringBuilder sb = new StringBuilder();
+            int sum = 0;
+            for(int i = 1; i <=s.length(); i++){
+                sum += s.charAt(i-1) - '0';
+                if(i % k == 0 || i == s.length()){
+                    sb.append(sum);
+                    sum=0;  
                 }
             }
-            if(l%k!=0){
-                newstr.append(sum);
-            }
-            str=newstr;
+            s = sb.toString();
         }
-        return str.toString();
+        return s;
     }
 }
